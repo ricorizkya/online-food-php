@@ -141,7 +141,9 @@ foreach ($_SESSION["cart_item"] as $item)
                                 <div class="form-group row no-gutter">
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control b-r-0"
-                                            value="Rp <?php echo $item['price']; ?>" readonly id="exampleSelect1">
+                                            value="Rp <?php echo number_format($item['price'], 0, ',', '.'); ?>"
+                                            readonly id="exampleSelect1">
+
 
                                     </div>
                                     <div class="col-xs-4">
@@ -166,7 +168,8 @@ $item_total += ($item["price"]*$item["quantity"]);
                         <div class="widget-body">
                             <div class="price-wrap text-xs-center">
                                 <p>TOTAL</p>
-                                <h3 class="value"><strong><?php echo "Rp. ".$item_total; ?></strong></h3>
+                                <h3 class="value">
+                                    <strong><?php echo "Rp. ".number_format($item_total, 0, ',', '.'); ?></strong></h3>
                                 <?php
                                         if($item_total==0){
                                         ?>
@@ -239,7 +242,8 @@ $item_total += ($item["price"]*$item["quantity"]);
                                     </div>
 
                                     <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
-                                        <span class="price pull-left">Rp <?php echo $product['price']; ?></span>
+                                        <span class="price pull-left">Rp
+                                            <?php echo number_format($product['price'], 0, ',', '.'); ?></span>
                                         <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;"
                                             value="1" size="2" />
                                         <input type="submit" class="btn theme-btn" style="margin-left:40px;"
