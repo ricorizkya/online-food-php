@@ -4,8 +4,20 @@
 include("../connection/connect.php");
 error_reporting(0);
 session_start();
-
+function tanggal_indo($tanggal) {
+    $bulan = [
+        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    $tgl = date('d', strtotime($tanggal));
+    $bln = date('n', strtotime($tanggal));
+    $thn = date('Y', strtotime($tanggal));
+    $jam = date('H:i:s', strtotime($tanggal));
+    
+    return $tgl . " " . $bulan[$bln] . " " . $thn . " - " . $jam;
+}
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,65 +29,70 @@ session_start();
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script language="javascript" type="text/javascript">
-var popUpWin=0;
-function popUpWindow(URLStr, left, top, width, height)
-{
- if(popUpWin)
-{
-if(!popUpWin.closed) popUpWin.close();
-}
-popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,copyhistory=yes,width='+1000+',height='+1000+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
-}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript">
+    var popUpWin = 0;
 
-</script>
+    function popUpWindow(URLStr, left, top, width, height) {
+        if (popUpWin) {
+            if (!popUpWin.closed) popUpWin.close();
+        }
+        popUpWin = open(URLStr, 'popUpWin',
+            'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,copyhistory=yes,width=' +
+            1000 + ',height=' + 1000 + ',left=' + left + ', top=' + top + ',screenX=' + left + ',screenY=' + top +
+            '');
+    }
+    </script>
 </head>
 
 <body class="fix-header fix-sidebar">
-    
+
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
     </div>
-   
+
     <div id="main-wrapper">
 
         <div class="header">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
-            <div class="navbar-header">
+                <div class="navbar-header">
                     <a class="navbar-brand" href="dashboard.php">
-                        
+
                         <span><img src="images/icn.png" alt="homepage" class="dark-logo" /></span>
                     </a>
                 </div>
                 <div class="navbar-collapse">
-       
+
                     <ul class="navbar-nav mr-auto mt-md-0">
 
                     </ul>
-     
+
                     <ul class="navbar-nav my-lg-0">
 
-                       
-               
+
+
                         <li class="nav-item dropdown">
-                           
+
                             <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
                                 <ul>
                                     <li>
                                         <div class="drop-title">Notifications</div>
                                     </li>
-                                    
+
                                     <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all
+                                                notifications</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                 
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png"
+                                    alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
                                     <li><a href="logout.php"><i class="fa fa-power-off"></i> Logout</a></li>
@@ -88,175 +105,271 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
         </div>
 
         <div class="left-sidebar">
-        
+
             <div class="scroll-sidebar">
-         
+
                 <nav class="sidebar-nav">
-                   <ul id="sidebarnav">
+                    <ul id="sidebarnav">
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
                         <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php">  <span><i class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Toko</span></a>
+                        <li> <a href="all_users.php"> <span><i
+                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
+                                    class="fa fa-archive f-s-20 color-warning"></i><span
+                                    class="hide-menu">Toko</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="all_restaurant.php">Semua Toko</a></li>
-								<li><a href="add_category.php">Tambah Kategori</a></li>
+                                <li><a href="all_restaurant.php">Semua Toko</a></li>
+                                <li><a href="add_category.php">Tambah Kategori</a></li>
                                 <li><a href="add_restaurant.php">Tambah Toko</a></li>
-                                
+
                             </ul>
                         </li>
-                      <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery"
+                                    aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="all_menu.php">Semua Menu</a></li>
-								<li><a href="add_menu.php">Tambahkan Menu</a></li>
-                              
-                                
+                                <li><a href="all_menu.php">Semua Menu</a></li>
+                                <li><a href="add_menu.php">Tambahkan Menu</a></li>
+
+
                             </ul>
                         </li>
-						 <li> <a href="all_orders.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Pesanan</span></a></li>
-                         
+                        <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
+                                    aria-hidden="true"></i><span>Pesanan</span></a></li>
+
                     </ul>
                 </nav>
-          
+
             </div>
-     
+
         </div>
-    
+
         <div class="page-wrapper">
-        
-            
-    
+
+
+
             <div class="container-fluid">
-     
+
                 <div class="row">
                     <div class="col-12">
-                        
-                   
+
+
                         <div class="col-lg-12">
-                        <div class="card card-outline-primary">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white">Lihat Pesanan</h4>
-                            </div>
-                             
+                            <div class="card card-outline-primary">
+                                <div class="card-header">
+                                    <h4 class="m-b-0 text-white">Lihat Pesanan</h4>
+                                </div>
+
                                 <div class="table-responsive m-t-20">
                                     <table id="myTable" class="table table-bordered table-striped">
-                                       
+
                                         <tbody>
-                                           <?php
+                                            <?php
 											$sql="SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id where o_id='".$_GET['user_upd']."'";
 												$query=mysqli_query($db,$sql);
 												$rows=mysqli_fetch_array($query);
-												
-												
 																		
 												?>
-											
-											<tr>
-													<td><strong>Username:</strong></td>
-												    <td><center><?php echo $rows['username']; ?></center></td>
-													   <td><center>
-													   <a href="javascript:void(0);" onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']);?>');" title="Update order">
-															 <button type="button" class="btn btn-primary">Memperbarui Status Pesanan</button></a>
-															 </center>
-											 </td>
-												  
-																																					
-											</tr>	
-											<tr>
-												<td><strong>Nama Barang:</strong></td>
-												    <td><center><?php echo $rows['title']; ?></center></td>
-													    <td><center>
-													   <a href="javascript:void(0);" onClick="popUpWindow('userprofile.php?newform_id=<?php echo htmlentities($rows['o_id']);?>');" title="Update order">
-														<button type="button" class="btn btn-primary">Lihat Detail Pengguna</button></a>
-											
-													   </center></td>
-												   																								
-											</tr>	
-											<tr>
-													<td><strong>Jumlah:</strong></td>
-												    <td><center><?php echo $rows['quantity']; ?></center></td>
-													  
-												   																							
-											</tr>
-											<tr>
-													<td><strong>Harga:</strong></td>
-												    <td><center>Rp.<?php echo $rows['price']; ?></center></td>
-													   
-												   																							
-											</tr>
-											<tr>
-													<td><strong>Alamat:</strong></td>
-												    <td><center><?php echo $rows['address']; ?></center></td>
-													  
-												   																							
-											</tr>
-											<tr>
-													<td><strong>Tanggal:</strong></td>
-												     <td><center><?php echo $rows['date']; ?></center></td>
-													  
-												   																							
-											</tr>
-											<tr>
-													<td><strong>Status:</strong></td>
-													<?php 
+
+                                            <tr>
+                                                <td><strong>Tanggal</strong></td>
+                                                <td>
+                                                    <?php echo tanggal_indo($rows['date']); ?>
+                                                </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="javascript:void(0);"
+                                                            onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']);?>');"
+                                                            title="Update order">
+                                                            <button type="button" class="btn btn-primary">Memperbarui
+                                                                Status Pesanan</button></a>
+                                                    </center>
+                                                </td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>User</strong></td>
+                                                <td>
+                                                    <?php echo $rows['f_name']; ?>
+                                                    <?php echo $rows['l_name']; ?>
+                                                </td>
+                                                <td>
+                                                    <center>
+                                                        <a href="javascript:void(0);"
+                                                            onClick="popUpWindow('userprofile.php?newform_id=<?php echo htmlentities($rows['o_id']);?>');"
+                                                            title="Update order">
+                                                            <button type="button" class="btn btn-primary">Lihat Detail
+                                                                Pengguna</button></a>
+
+                                                    </center>
+                                                </td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Nama Barang</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php $items = json_decode($rows['items'], true); ?>
+                                                    <?php
+                                                        if ($items) {
+                                                            $no = 1;
+                                                            $grandTotal = 0;
+                                                            foreach ($items as $item) {
+                                                                $subtotal = $item['quantity'] * $item['price'];
+                                                                echo $no . '. ' . $item['title'] . '<br>';
+                                                                echo '&nbsp;&nbsp;&nbsp;&nbsp;' .$item['quantity'] . ' x Rp ' . number_format($item['price'], 0, ',', '.') . ",-<br>";
+                                                                $grandTotal += $subtotal;
+                                                                $no++;
+                                                            }
+                                                            echo '<br>';
+                                                            echo '&nbsp;&nbsp;&nbsp;&nbsp;<b>Subtotal : Rp ' . number_format($grandTotal, 0, ',', '.') . ",-</b><br>";
+                                                            echo '&nbsp;&nbsp;&nbsp;&nbsp;<b>Ongkir : Rp ' . number_format($rows['ongkir'], 0, ',', '.') . ",-</b><br>";
+                                                            echo '&nbsp;&nbsp;&nbsp;&nbsp;<b>Total : Rp ' . number_format($rows['total'], 0, ',', '.') . ",-</b><br><br>";
+                                                            echo '&nbsp;&nbsp;&nbsp;&nbsp;<b>Metode Pembayaran : ' . ($rows['payment_method'] == 'TF' ? 'Transfer Bank' : 'COD') . '</b><br>';
+                                                        } else {
+                                                            echo "Data tidak valid";
+                                                        } 
+                                                    ?>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    Rp <?php echo number_format($rows['total'], 0, ',', '.'); ?>
+                                                </td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Atas Nama</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php echo $rows['name_shipping']; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Nomor Telepon</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php echo $rows['phone_shipping']; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Alamat</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php echo $rows['address']; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Bukti Pembayaran</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php
+                                                        if ($rows['payment_method'] == 'TF') {
+                                                    ?>
+                                                    <span><?php echo $rows['bank']; ?></span><br>
+                                                    <img src="../<?php echo $rows['bukti_tf']; ?>" alt="" srcset=""
+                                                        style="width: 250px; height: 350px;"><br>
+                                                    <?php } else { ?>
+                                                    <span>-</span>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Resi</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <span><?php echo $rows['resi']; ?></span><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status</strong></td>
+                                                <td colspan="2" style="text-align: left">
+                                                    <?php 
 																			$status=$rows['status'];
-																			if($status=="" or $status=="NULL")
+																			if($status=="Menunggu Pembayaran")
 																			{
 																			?>
-																			<td> <center><button type="button" class="btn btn-info"><span class="fa fa-bars"  aria-hidden="true" ></span> Dikirim</button></center></td>
-																		   <?php 
+                                                    <button type="button" class="btn btn-warning"><span
+                                                            class="fa fa-bars" aria-hidden="true"></span> Menunggu
+                                                        Pembayaran</button>
+                                                    <?php 
 																			  }
-																			   if($status=="in process")
+																			   if($status=="Dikemas")
 																			 { ?>
-																			<td>   <center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true" ></span>Dalam Perjalanan</button></center></td> 
-																			<?php
+                                                    <button type="button" class="btn btn-info"><span
+                                                            class="fa fa-cog fa-spin" aria-hidden="true"></span>
+                                                        Dikemas</button>
+                                                    <?php
 																				}
-																			if($status=="closed")
+																			if($status=="Dalam Perjalanan")
 																				{
 																			?>
-																			<td>  <center><button type="button" class="btn btn-primary" ><span  class="fa fa-check-circle" aria-hidden="true"></span> Terkirim</button></center></td> 
-																			<?php 
+                                                    <button type="button" class="btn btn-success"><span
+                                                            class="fa fa-check-circle" aria-hidden="true"></span>
+                                                        Dalam Perjalanan</button>
+                                                    <?php 
 																			} 
 																			?>
-																			<?php
-																			if($status=="rejected")
+                                                    <?php
+																			if($status=="Ditolak")
 																				{
 																			?>
-																			<td>  <center><button type="button" class="btn btn-danger"> <i class="fa fa-close"></i> Dibatalkan</button> </center></td> 
-																			<?php 
-																			} 
-																			?>
-													  
-												   																							
-											</tr>
-											
-																				
-																															
-																						
-									
-                                            
-                                           
+                                                    <button type="button" class="btn btn-danger"> <i
+                                                            class="fa fa-close"></i> Nominal Pembayaran Tidak
+                                                        Sesuai</button>
+                                                    <?php 
+                                                                            } if($status=="Selesai")
+                                                                                {
+                                                                            ?>
+                                                    <button type="button" class="btn btn-success"><span
+                                                            class="fa fa-check-circle" aria-hidden="true"></span>
+                                                        Selesai</button>
+                                                    <?php
+                                                                            } if($status=="Menunggu Konfirmasi Pembayaran")
+                                                                                {
+                                                                            ?>
+                                                    <button type="button" class="btn btn-warning"><span
+                                                            class="fa fa-bars" aria-hidden="true"></span>
+                                                        Menunggu Konfirmasi Pembayaran</button>
+                                                    <?php
+                                                                            } if($status=="Dibatalkan")
+                                                                                {
+                                                                            ?>
+                                                    <button type="button" class="btn btn-danger"><span
+                                                            class="fa fa-close" aria-hidden="true"></span>
+                                                        Dibatalkan</button>
+                                                    <?php
+                                                                            }
+                                                                            ?>
+                                                </td>
+                                            </tr>
+
+
+
+
+
+
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-						 </div>
-                      
-                            </div>
-                        </div>
                     </div>
+
                 </div>
-              
             </div>
-          
-            <footer class="footer"> © 2024 - UD Mina Makmur </footer>
-        
         </div>
-       
     </div>
-    
+
+    </div>
+
+    <footer class="footer"> © 2024 - UD Mina Makmur </footer>
+
+    </div>
+
+    </div>
+
     <script src="js/lib/jquery/jquery.min.js"></script>
     <script src="js/lib/bootstrap/js/popper.min.js"></script>
     <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>

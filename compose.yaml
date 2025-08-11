@@ -1,0 +1,110 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+# services:
+#   server:
+#     build:
+#       context: .
+#     ports:
+#       - 9000:80
+
+# version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - '9000:80'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: # Tambahkan jaringan
+      - app-network
+
+  db:
+    image: mysql:8.0.33
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: onlinefoodphp
+      # MYSQL_USER: 'phpuser'
+      # MYSQL_PASSWORD: ''
+      # MYSQL_DEFAULT_AUTHENTICATION_PLUGIN: mysql_native_password
+      # MYSQL_USER: root # username sesuai connection.php
+      # MYSQL_PASSWORD: '' # password sama seperti root = kosong
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./onlinefoodphp.sql:/docker-entrypoint-initdb.d/onlinefoodphp.sql
+      # - ./my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf
+    networks: # Tambahkan jaringan
+      - app-network
+    healthcheck:
+      test: mysql -u root -e 'SELECT 1'
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  phpmyadmin: # Tambahkan service phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80' # Port untuk mengakses phpMyAdmin melalui browser Anda
+    environment:
+      PMA_HOST: db # Nama service database Anda di compose.yaml
+      MYSQL_ROOT_PASSWORD: '' # Sesuaikan dengan password root MySQL Anda
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
+# The commented out section below is an example of how to define a PostgreSQL
+# database that your application can use. `depends_on` tells Docker Compose to
+# start the database before your application. The `db-data` volume persists the
+# database data between container restarts. The `db-password` secret is used
+# to set the database password. You must create `db/password.txt` and add
+# a password of your choosing to it before running `docker-compose up`.
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#   db:
+#     image: postgres
+#     restart: always
+#     user: postgres
+#     secrets:
+#       - db-password
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=example
+#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+#     expose:
+#       - 5432
+#     healthcheck:
+#       test: [ "CMD", "pg_isready" ]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+# volumes:
+#   db-data:
+# secrets:
+#   db-password:
+#     file: db/password.txt
+
